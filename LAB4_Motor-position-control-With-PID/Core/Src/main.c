@@ -128,9 +128,9 @@ int main(void)
 	  	QEIReadRaw = __HAL_TIM_GET_COUNTER(&htim5);
 	  	setposition = degree * (3071 / 360);
 	  	Vfeedback = pid(setposition - QEIReadRaw);
+	  	if(Vfeedback > 100)	{Vfeedback = 100;}
+	  	else if(Vfeedback < -100)	{Vfeedback = -100;}
 	  	MotorSetDuty = Vfeedback;
-	  	if(MotorSetDuty > 100)	{MotorSetDuty = 100;}
-	  	else if(MotorSetDuty < -100)	{MotorSetDuty = -100;}
 	  	controll_motor(MotorSetDuty);
 	  	Read_degree = QEIReadRaw / (3071 / 360);
 	  }
@@ -434,8 +434,8 @@ void controll_motor(int16_t PWM_Motor)
 	}
 }
 double pid(int32_t error){
-    double Kp = 1.2;
-    double Ki = 0.0001;
+    double Kp = 1.4;
+    double Ki = 0.00001;
     double Kd = 0.8;
 
     double Ans;
